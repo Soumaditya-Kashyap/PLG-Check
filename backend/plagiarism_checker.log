@@ -1,0 +1,331 @@
+2025-07-30 20:08:38,712 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-07-30 20:08:38,720 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-07-30 20:08:38,936 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-30 20:08:38,937 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-30 20:08:38,937 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-30 20:08:38,937 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-30 20:08:48,230 - __main__ - INFO - Starting Plagiarism Checker API...
+2025-07-30 20:08:48,230 - __main__ - INFO - Starting Plagiarism Checker API...
+2025-07-30 20:08:48,230 - __main__ - INFO - Tavily API Key configured: Yes
+2025-07-30 20:08:48,230 - __main__ - INFO - Tavily API Key configured: Yes
+2025-07-30 20:08:48,230 - __main__ - INFO - ChromaDB path: chroma_db
+2025-07-30 20:08:48,231 - __main__ - INFO - ChromaDB path: chroma_db
+2025-07-30 20:08:48,243 - werkzeug - WARNING -  * Debugger is active!
+2025-07-30 20:08:48,243 - werkzeug - WARNING -  * Debugger is active!
+2025-07-30 20:08:48,263 - werkzeug - INFO -  * Debugger PIN: 290-483-295
+2025-07-30 20:08:48,265 - werkzeug - INFO -  * Debugger PIN: 290-483-295
+2025-07-30 20:09:01,486 - werkzeug - INFO -  * Detected change in 'C:\\Users\\infin\\Documents\\CDAC_TU\\CheckPLG1\\backend\\app.py', reloading
+2025-07-30 20:09:01,529 - werkzeug - INFO -  * Detected change in 'C:\\Users\\infin\\Documents\\CDAC_TU\\CheckPLG1\\backend\\app.py', reloading
+2025-07-30 20:09:10,947 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-07-30 20:09:10,969 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-07-30 20:09:11,110 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-30 20:09:11,111 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-30 20:09:11,118 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-30 20:09:11,119 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-30 20:09:20,060 - __main__ - INFO - Starting Plagiarism Checker API...
+2025-07-30 20:09:20,060 - __main__ - INFO - Tavily API Key configured: Yes
+2025-07-30 20:09:20,060 - __main__ - INFO - ChromaDB path: chroma_db
+2025-07-30 20:09:20,072 - werkzeug - WARNING -  * Debugger is active!
+2025-07-30 20:09:20,092 - werkzeug - INFO -  * Debugger PIN: 290-483-295
+2025-07-30 20:09:20,481 - __main__ - INFO - Starting Plagiarism Checker API...
+2025-07-30 20:09:20,481 - __main__ - INFO - Tavily API Key configured: Yes
+2025-07-30 20:09:20,482 - __main__ - INFO - ChromaDB path: chroma_db
+2025-07-30 20:09:20,494 - werkzeug - WARNING -  * Debugger is active!
+2025-07-30 20:09:20,516 - werkzeug - INFO -  * Debugger PIN: 290-483-295
+2025-07-30 20:09:31,117 - werkzeug - INFO -  * Detected change in 'C:\\Users\\infin\\Documents\\CDAC_TU\\CheckPLG1\\backend\\services\\plagiarism_service.py', reloading
+2025-07-30 20:09:31,575 - werkzeug - INFO -  * Detected change in 'C:\\Users\\infin\\Documents\\CDAC_TU\\CheckPLG1\\backend\\services\\plagiarism_service.py', reloading
+2025-07-30 20:09:40,808 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-07-30 20:09:40,947 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-30 20:09:40,947 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-30 20:09:41,245 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-07-30 20:09:41,374 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-30 20:09:41,374 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-30 20:09:49,263 - __main__ - INFO - Starting Plagiarism Checker API...
+2025-07-30 20:09:49,264 - __main__ - INFO - Tavily API Key configured: Yes
+2025-07-30 20:09:49,264 - __main__ - INFO - ChromaDB path: chroma_db
+2025-07-30 20:09:49,275 - werkzeug - WARNING -  * Debugger is active!
+2025-07-30 20:09:49,291 - werkzeug - INFO -  * Debugger PIN: 290-483-295
+2025-07-30 20:09:49,781 - __main__ - INFO - Starting Plagiarism Checker API...
+2025-07-30 20:09:49,781 - __main__ - INFO - Tavily API Key configured: Yes
+2025-07-30 20:09:49,782 - __main__ - INFO - ChromaDB path: chroma_db
+2025-07-30 20:09:49,794 - werkzeug - WARNING -  * Debugger is active!
+2025-07-30 20:09:49,824 - werkzeug - INFO -  * Debugger PIN: 290-483-295
+2025-07-30 20:11:43,619 - werkzeug - INFO -  * Detected change in 'C:\\Users\\infin\\Documents\\CDAC_TU\\CheckPLG1\\backend\\services\\tavily_service.py', reloading
+2025-07-30 20:11:44,137 - werkzeug - INFO -  * Detected change in 'C:\\Users\\infin\\Documents\\CDAC_TU\\CheckPLG1\\backend\\services\\tavily_service.py', reloading
+2025-07-30 20:11:54,741 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-07-30 20:11:54,895 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-30 20:11:54,895 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-30 20:11:54,929 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-07-30 20:11:55,063 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-30 20:11:55,064 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-30 20:12:04,280 - __main__ - INFO - Starting Plagiarism Checker API...
+2025-07-30 20:12:04,281 - __main__ - INFO - Tavily API Key configured: Yes
+2025-07-30 20:12:04,281 - __main__ - INFO - ChromaDB path: chroma_db
+2025-07-30 20:12:04,292 - werkzeug - WARNING -  * Debugger is active!
+2025-07-30 20:12:04,311 - werkzeug - INFO -  * Debugger PIN: 290-483-295
+2025-07-30 20:12:04,402 - __main__ - INFO - Starting Plagiarism Checker API...
+2025-07-30 20:12:04,403 - __main__ - INFO - Tavily API Key configured: Yes
+2025-07-30 20:12:04,404 - __main__ - INFO - ChromaDB path: chroma_db
+2025-07-30 20:12:04,413 - werkzeug - WARNING -  * Debugger is active!
+2025-07-30 20:12:04,440 - werkzeug - INFO -  * Debugger PIN: 290-483-295
+2025-07-30 20:12:14,909 - werkzeug - INFO -  * Detected change in 'C:\\Users\\infin\\Documents\\CDAC_TU\\CheckPLG1\\backend\\services\\tavily_service.py', reloading
+2025-07-30 20:12:15,142 - werkzeug - INFO -  * Detected change in 'C:\\Users\\infin\\Documents\\CDAC_TU\\CheckPLG1\\backend\\services\\tavily_service.py', reloading
+2025-07-30 20:12:24,756 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-07-30 20:12:24,759 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-07-30 20:12:24,922 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-30 20:12:24,922 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-30 20:12:24,928 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-30 20:12:24,929 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-30 20:12:33,411 - __main__ - INFO - Starting Plagiarism Checker API...
+2025-07-30 20:12:33,412 - __main__ - INFO - Tavily API Key configured: Yes
+2025-07-30 20:12:33,412 - __main__ - INFO - ChromaDB path: chroma_db
+2025-07-30 20:12:33,420 - werkzeug - WARNING -  * Debugger is active!
+2025-07-30 20:12:33,430 - werkzeug - INFO -  * Debugger PIN: 290-483-295
+2025-07-30 20:12:34,427 - __main__ - INFO - Starting Plagiarism Checker API...
+2025-07-30 20:12:34,427 - __main__ - INFO - Tavily API Key configured: Yes
+2025-07-30 20:12:34,427 - __main__ - INFO - ChromaDB path: chroma_db
+2025-07-30 20:12:34,437 - werkzeug - WARNING -  * Debugger is active!
+2025-07-30 20:12:34,454 - werkzeug - INFO -  * Debugger PIN: 290-483-295
+2025-07-30 20:12:46,490 - werkzeug - INFO -  * Detected change in 'C:\\Users\\infin\\Documents\\CDAC_TU\\CheckPLG1\\backend\\utils\\pdf_extractor.py', reloading
+2025-07-30 20:12:46,862 - werkzeug - INFO -  * Detected change in 'C:\\Users\\infin\\Documents\\CDAC_TU\\CheckPLG1\\backend\\utils\\pdf_extractor.py', reloading
+2025-07-30 20:12:55,711 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-07-30 20:12:55,851 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-30 20:12:55,851 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-30 20:12:56,122 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-07-30 20:12:56,259 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-30 20:12:56,260 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-30 20:13:06,390 - __main__ - INFO - Starting Plagiarism Checker API...
+2025-07-30 20:13:06,391 - __main__ - INFO - Tavily API Key configured: Yes
+2025-07-30 20:13:06,391 - __main__ - INFO - ChromaDB path: chroma_db
+2025-07-30 20:13:06,394 - __main__ - INFO - Starting Plagiarism Checker API...
+2025-07-30 20:13:06,394 - __main__ - INFO - Tavily API Key configured: Yes
+2025-07-30 20:13:06,395 - __main__ - INFO - ChromaDB path: chroma_db
+2025-07-30 20:13:06,404 - werkzeug - WARNING -  * Debugger is active!
+2025-07-30 20:13:06,407 - werkzeug - WARNING -  * Debugger is active!
+2025-07-30 20:13:06,431 - werkzeug - INFO -  * Debugger PIN: 290-483-295
+2025-07-30 20:13:06,431 - werkzeug - INFO -  * Debugger PIN: 290-483-295
+2025-07-30 20:14:23,545 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-07-30 20:14:23,640 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-30 20:14:23,640 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-30 20:14:40,716 - __main__ - INFO - Starting Plagiarism Checker API...
+2025-07-30 20:14:40,716 - __main__ - INFO - Tavily API Key configured: Yes
+2025-07-30 20:14:40,716 - __main__ - INFO - ChromaDB path: chroma_db
+2025-07-30 20:14:40,787 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.70.221.57:5000
+2025-07-30 20:14:40,788 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-07-30 20:14:40,790 - werkzeug - INFO -  * Restarting with stat
+2025-07-30 20:14:51,928 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-07-30 20:14:52,134 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-30 20:14:52,135 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-30 20:15:00,463 - __main__ - INFO - ============================================================
+2025-07-30 20:15:00,519 - __main__ - INFO - ============================================================
+2025-07-30 20:15:01,608 - __main__ - INFO - Starting Plagiarism Checker API...
+2025-07-30 20:15:01,608 - __main__ - INFO - Tavily API Key configured: Yes
+2025-07-30 20:15:01,609 - __main__ - INFO - ChromaDB path: chroma_db
+2025-07-30 20:15:01,622 - werkzeug - WARNING -  * Debugger is active!
+2025-07-30 20:15:01,645 - werkzeug - INFO -  * Debugger PIN: 290-483-295
+2025-07-30 20:15:03,369 - services.plagiarism_service - INFO - Stored 27 PDF chunks for document 01562068-54b7-4993-9457-27a53c4a8921
+2025-07-30 20:15:03,384 - services.plagiarism_service - INFO -    1. "tacc a secure accelerator enclave for ai workloads systor ju..."
+2025-07-30 20:15:03,385 - services.plagiarism_service - INFO -    2. "have explored the cpu gpu combination mode however these wor..."
+2025-07-30 20:15:03,385 - services.plagiarism_service - INFO -    3. "in novation for emerging accelerators running ai workloads s..."
+2025-07-30 20:15:03,385 - services.plagiarism_service - INFO -    4. "of these two memories is separated from programming and comp..."
+2025-07-30 20:15:03,386 - services.plagiarism_service - INFO -    5. "the user that the desired code and data are correctly..."
+2025-07-30 20:15:03,398 - services.arxiv_service - INFO - Searching arXiv for: tacc a secure accelerator enclave for ai workloads systor june
+2025-07-30 20:15:04,873 - services.arxiv_service - INFO - Successfully parsed 3 papers from arXiv response
+2025-07-30 20:15:05,874 - services.arxiv_service - INFO - Searching arXiv for: have explored the cpu gpu combination mode however these works
+2025-07-30 20:15:06,205 - services.arxiv_service - INFO - Successfully parsed 3 papers from arXiv response
+2025-07-30 20:15:07,206 - services.arxiv_service - INFO - Searching arXiv for: in novation for emerging accelerators running ai workloads such as
+2025-07-30 20:15:07,535 - services.arxiv_service - INFO - Successfully parsed 3 papers from arXiv response
+2025-07-30 20:15:08,536 - services.arxiv_service - INFO - Searching arXiv for: of these two memories is separated from programming and compilation
+2025-07-30 20:15:08,967 - services.arxiv_service - INFO - Successfully parsed 3 papers from arXiv response
+2025-07-30 20:15:09,968 - services.arxiv_service - INFO - Searching arXiv for: the user that the desired code and data are correctly
+2025-07-30 20:15:10,301 - services.arxiv_service - INFO - Successfully parsed 3 papers from arXiv response
+2025-07-30 20:15:11,310 - services.plagiarism_service - INFO -    1. "Empowering Data Centers for Next Generation Truste..." (5 authors)
+2025-07-30 20:15:11,310 - services.plagiarism_service - INFO -    2. "Computation offloading to hardware accelerators in..." (3 authors)
+2025-07-30 20:15:11,311 - services.plagiarism_service - INFO -    3. "Speeding up enclave transitions for IO-intensive a..." (3 authors)
+2025-07-30 20:15:12,228 - services.plagiarism_service - INFO - Stored 15 arXiv papers
+2025-07-30 20:15:15,428 - services.tavily_service - INFO -       1. "TACC: a secure accelerator enclave for A..." from dl.acm.org
+2025-07-30 20:15:15,429 - services.tavily_service - INFO -       2. "TACC: a secure accelerator enclave for A..." from www.researchgate.net
+2025-07-30 20:15:15,440 - services.tavily_service - INFO -    1/2 Processing: dl.acm.org
+2025-07-30 20:15:16,957 - trafilatura.downloads - ERROR - not a 200 response: 403 for URL https://dl.acm.org/doi/pdf/10.1145/3534056.3534943
+2025-07-30 20:15:16,967 - services.tavily_service - INFO -    2/2 Processing: www.researchgate.net
+2025-07-30 20:15:18,412 - trafilatura.downloads - ERROR - not a 200 response: 403 for URL https://www.researchgate.net/publication/361122459_TACC_a_secure_accelerator_enclave_for_AI_workloads
+2025-07-30 20:15:20,342 - services.tavily_service - INFO -       1. "CPU vs. GPU: What's the Difference? - In..." from www.intel.com
+2025-07-30 20:15:20,342 - services.tavily_service - INFO -       2. "Understanding the Different Roles of you..." from www.reddit.com
+2025-07-30 20:15:20,348 - services.tavily_service - INFO -    1/2 Processing: www.intel.com
+2025-07-30 20:15:21,655 - services.tavily_service - INFO -    2/2 Processing: www.reddit.com
+2025-07-30 20:15:25,763 - services.tavily_service - INFO -       1. "What is an AI accelerator? - IBM..." from www.ibm.com
+2025-07-30 20:15:25,764 - services.tavily_service - INFO -       2. "Improving AI Inference Performance with ..." from www.aiacceleratorinstitute.com
+2025-07-30 20:15:25,771 - services.tavily_service - INFO -    1/2 Processing: www.ibm.com
+2025-07-30 20:15:28,477 - services.tavily_service - INFO -    2/2 Processing: www.aiacceleratorinstitute.com
+2025-07-30 20:15:31,981 - services.tavily_service - INFO -       1. "Using constant memory with separate comp..." from forums.developer.nvidia.com
+2025-07-30 20:15:31,981 - services.tavily_service - INFO -       2. "How do you separate the different stages..." from www.reddit.com
+2025-07-30 20:15:31,987 - services.tavily_service - INFO -    1/2 Processing: forums.developer.nvidia.com
+2025-07-30 20:15:34,613 - services.tavily_service - INFO -    2/2 Processing: www.reddit.com
+2025-07-30 20:15:36,936 - services.tavily_service - INFO -       1. "Chapter 15 Multiple Choice Flashcards - ..." from quizlet.com
+2025-07-30 20:15:36,936 - services.tavily_service - INFO -       2. "how do y'all make sure your code produce..." from www.reddit.com
+2025-07-30 20:15:36,944 - services.tavily_service - INFO -    1/2 Processing: quizlet.com
+2025-07-30 20:15:38,057 - trafilatura.downloads - ERROR - not a 200 response: 403 for URL https://quizlet.com/336966589/chapter-15-multiple-choice-flash-cards/
+2025-07-30 20:15:38,064 - services.tavily_service - INFO -    2/2 Processing: www.reddit.com
+2025-07-30 20:15:38,991 - services.plagiarism_service - INFO -    1. "TACC: a secure accelerator enclave for AI workload..." from https://dl.acm.org/doi/pdf/10....
+2025-07-30 20:15:38,991 - services.plagiarism_service - INFO -    2. "TACC: a secure accelerator enclave for AI workload..." from https://www.researchgate.net/p...
+2025-07-30 20:15:38,992 - services.plagiarism_service - INFO -    3. "CPU vs. GPU: What's the Difference? - Intel..." from https://www.intel.com/content/...
+2025-07-30 20:15:39,387 - services.plagiarism_service - INFO - Stored 7 web content items
+2025-07-30 20:15:40,919 - services.plagiarism_service - INFO -    1. 76.0% similar (arxiv)
+2025-07-30 20:15:40,919 - services.plagiarism_service - INFO -       Your text: "encrypt it and send it back to the CPU e..."
+2025-07-30 20:15:40,920 - services.plagiarism_service - INFO -       Found text: "Empowering Data Centers for Next Generat..."
+2025-07-30 20:15:40,920 - services.plagiarism_service - INFO -    2. 75.9% similar (arxiv)
+2025-07-30 20:15:40,920 - services.plagiarism_service - INFO -       Your text: "encrypt it and send it back to the CPU e..."
+2025-07-30 20:15:40,920 - services.plagiarism_service - INFO -       Found text: "Confidential Computing on Heterogeneous ..."
+2025-07-30 20:15:40,921 - services.plagiarism_service - INFO -    3. 73.4% similar (arxiv)
+2025-07-30 20:15:40,921 - services.plagiarism_service - INFO -       Your text: "the user that the desired code and data ..."
+2025-07-30 20:15:40,921 - services.plagiarism_service - INFO -       Found text: "Computation offloading to hardware accel..."
+2025-07-30 20:15:40,927 - __main__ - INFO - ============================================================
+2025-07-30 20:15:40,931 - __main__ - INFO - ============================================================
+2025-07-30 20:15:40,967 - __main__ - INFO -    1. 76.0% similar (arxiv source)
+2025-07-30 20:15:40,967 - __main__ - INFO -    2. 75.9% similar (arxiv source)
+2025-07-30 20:15:40,968 - __main__ - INFO -    3. 73.4% similar (arxiv source)
+2025-07-30 20:15:40,968 - __main__ - INFO - ============================================================
+2025-07-30 20:15:40,972 - __main__ - INFO - ============================================================
+2025-07-30 20:15:40,974 - werkzeug - INFO - 127.0.0.1 - - [30/Jul/2025 20:15:40] "POST /upload HTTP/1.1" 200 -
+2025-07-30 20:19:52,107 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-07-30 20:19:52,247 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-30 20:19:52,247 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-30 20:20:00,742 - __main__ - INFO - Starting Plagiarism Checker API...
+2025-07-30 20:20:00,743 - __main__ - INFO - Tavily API Key configured: Yes
+2025-07-30 20:20:00,743 - __main__ - INFO - ChromaDB path: chroma_db
+2025-07-30 20:20:00,763 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.70.221.57:5000
+2025-07-30 20:20:00,764 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-07-30 20:20:00,768 - werkzeug - INFO -  * Restarting with stat
+2025-07-30 20:20:12,107 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-07-30 20:20:12,295 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-30 20:20:12,296 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-30 20:20:22,028 - __main__ - INFO - Starting Plagiarism Checker API...
+2025-07-30 20:20:22,029 - __main__ - INFO - Tavily API Key configured: Yes
+2025-07-30 20:20:22,029 - __main__ - INFO - ChromaDB path: chroma_db
+2025-07-30 20:20:22,042 - werkzeug - WARNING -  * Debugger is active!
+2025-07-30 20:20:22,063 - werkzeug - INFO -  * Debugger PIN: 290-483-295
+2025-07-30 20:21:26,725 - __main__ - INFO - ============================================================
+2025-07-30 20:21:26,736 - __main__ - INFO - ============================================================
+2025-07-30 20:21:29,502 - services.plagiarism_service - INFO - Stored 27 PDF chunks for document dc6d4788-7077-451d-8c52-c6a88c86b332
+2025-07-30 20:21:29,516 - services.plagiarism_service - INFO -    1. "tacc a secure accelerator enclave for ai workloads systor ju..."
+2025-07-30 20:21:29,517 - services.plagiarism_service - INFO -    2. "have explored the cpu gpu combination mode however these wor..."
+2025-07-30 20:21:29,517 - services.plagiarism_service - INFO -    3. "in novation for emerging accelerators running ai workloads s..."
+2025-07-30 20:21:29,517 - services.plagiarism_service - INFO -    4. "of these two memories is separated from programming and comp..."
+2025-07-30 20:21:29,518 - services.plagiarism_service - INFO -    5. "the user that the desired code and data are correctly..."
+2025-07-30 20:21:29,531 - services.arxiv_service - INFO - Searching arXiv for: tacc a secure accelerator enclave for ai workloads systor june
+2025-07-30 20:21:30,927 - services.arxiv_service - INFO - Successfully parsed 3 papers from arXiv response
+2025-07-30 20:21:31,928 - services.arxiv_service - INFO - Searching arXiv for: have explored the cpu gpu combination mode however these works
+2025-07-30 20:21:32,361 - services.arxiv_service - INFO - Successfully parsed 3 papers from arXiv response
+2025-07-30 20:21:33,362 - services.arxiv_service - INFO - Searching arXiv for: in novation for emerging accelerators running ai workloads such as
+2025-07-30 20:21:33,574 - services.arxiv_service - INFO - Successfully parsed 3 papers from arXiv response
+2025-07-30 20:21:34,575 - services.arxiv_service - INFO - Searching arXiv for: of these two memories is separated from programming and compilation
+2025-07-30 20:21:34,919 - services.arxiv_service - INFO - Successfully parsed 3 papers from arXiv response
+2025-07-30 20:21:35,922 - services.arxiv_service - INFO - Searching arXiv for: the user that the desired code and data are correctly
+2025-07-30 20:21:36,257 - services.arxiv_service - INFO - Successfully parsed 3 papers from arXiv response
+2025-07-30 20:21:37,264 - services.plagiarism_service - INFO -    1. "Empowering Data Centers for Next Generation Truste..." (5 authors)
+2025-07-30 20:21:37,264 - services.plagiarism_service - INFO -    2. "Computation offloading to hardware accelerators in..." (3 authors)
+2025-07-30 20:21:37,264 - services.plagiarism_service - INFO -    3. "Speeding up enclave transitions for IO-intensive a..." (3 authors)
+2025-07-30 20:21:38,179 - services.plagiarism_service - INFO - Stored 15 arXiv papers
+2025-07-30 20:21:41,278 - services.tavily_service - INFO -       1. "TACC: a secure accelerator enclave for A..." from dl.acm.org
+2025-07-30 20:21:41,279 - services.tavily_service - INFO -       2. "TACC: a secure accelerator enclave for A..." from www.researchgate.net
+2025-07-30 20:21:41,287 - services.tavily_service - INFO -    1/2 Processing: dl.acm.org
+2025-07-30 20:21:42,711 - trafilatura.downloads - ERROR - not a 200 response: 403 for URL https://dl.acm.org/doi/pdf/10.1145/3534056.3534943
+2025-07-30 20:21:42,718 - services.tavily_service - INFO -    2/2 Processing: www.researchgate.net
+2025-07-30 20:21:43,940 - trafilatura.downloads - ERROR - not a 200 response: 403 for URL https://www.researchgate.net/publication/361122459_TACC_a_secure_accelerator_enclave_for_AI_workloads
+2025-07-30 20:21:45,267 - services.tavily_service - INFO -       1. "CPU vs. GPU: What's the Difference? - In..." from www.intel.com
+2025-07-30 20:21:45,267 - services.tavily_service - INFO -       2. "Understanding the Different Roles of you..." from www.reddit.com
+2025-07-30 20:21:45,275 - services.tavily_service - INFO -    1/2 Processing: www.intel.com
+2025-07-30 20:21:46,755 - services.tavily_service - INFO -    2/2 Processing: www.reddit.com
+2025-07-30 20:21:50,995 - services.tavily_service - INFO -       1. "What is an AI accelerator? - IBM..." from www.ibm.com
+2025-07-30 20:21:50,995 - services.tavily_service - INFO -       2. "Improving AI Inference Performance with ..." from www.aiacceleratorinstitute.com
+2025-07-30 20:21:51,005 - services.tavily_service - INFO -    1/2 Processing: www.ibm.com
+2025-07-30 20:21:52,874 - services.tavily_service - INFO -    2/2 Processing: www.aiacceleratorinstitute.com
+2025-07-30 20:21:56,745 - services.tavily_service - INFO -       1. "Using constant memory with separate comp..." from forums.developer.nvidia.com
+2025-07-30 20:21:56,745 - services.tavily_service - INFO -       2. "How do you separate the different stages..." from www.reddit.com
+2025-07-30 20:21:56,752 - services.tavily_service - INFO -    1/2 Processing: forums.developer.nvidia.com
+2025-07-30 20:21:59,547 - services.tavily_service - INFO -    2/2 Processing: www.reddit.com
+2025-07-30 20:22:02,675 - services.tavily_service - INFO -       1. "Chapter 15 Multiple Choice Flashcards - ..." from quizlet.com
+2025-07-30 20:22:02,675 - services.tavily_service - INFO -       2. "how do y'all make sure your code produce..." from www.reddit.com
+2025-07-30 20:22:02,682 - services.tavily_service - INFO -    1/2 Processing: quizlet.com
+2025-07-30 20:22:04,005 - trafilatura.downloads - ERROR - not a 200 response: 403 for URL https://quizlet.com/336966589/chapter-15-multiple-choice-flash-cards/
+2025-07-30 20:22:04,013 - services.tavily_service - INFO -    2/2 Processing: www.reddit.com
+2025-07-30 20:22:04,858 - services.plagiarism_service - INFO -    1. "TACC: a secure accelerator enclave for AI workload..." from https://dl.acm.org/doi/pdf/10....
+2025-07-30 20:22:04,858 - services.plagiarism_service - INFO -    2. "TACC: a secure accelerator enclave for AI workload..." from https://www.researchgate.net/p...
+2025-07-30 20:22:04,859 - services.plagiarism_service - INFO -    3. "CPU vs. GPU: What's the Difference? - Intel..." from https://www.intel.com/content/...
+2025-07-30 20:22:05,408 - services.plagiarism_service - INFO - Stored 7 web content items
+2025-07-30 20:22:07,256 - services.plagiarism_service - INFO -    1. 76.0% similar (arxiv)
+2025-07-30 20:22:07,256 - services.plagiarism_service - INFO -       Your text: "encrypt it and send it back to the CPU e..."
+2025-07-30 20:22:07,256 - services.plagiarism_service - INFO -       Found text: "Empowering Data Centers for Next Generat..."
+2025-07-30 20:22:07,257 - services.plagiarism_service - INFO -    2. 75.9% similar (arxiv)
+2025-07-30 20:22:07,257 - services.plagiarism_service - INFO -       Your text: "encrypt it and send it back to the CPU e..."
+2025-07-30 20:22:07,257 - services.plagiarism_service - INFO -       Found text: "Confidential Computing on Heterogeneous ..."
+2025-07-30 20:22:07,258 - services.plagiarism_service - INFO -    3. 73.4% similar (arxiv)
+2025-07-30 20:22:07,258 - services.plagiarism_service - INFO -       Your text: "the user that the desired code and data ..."
+2025-07-30 20:22:07,258 - services.plagiarism_service - INFO -       Found text: "Computation offloading to hardware accel..."
+2025-07-30 20:22:07,264 - __main__ - INFO - ============================================================
+2025-07-30 20:22:07,270 - __main__ - INFO - ============================================================
+2025-07-30 20:22:07,312 - __main__ - INFO -    1. 76.0% similar (arxiv source)
+2025-07-30 20:22:07,313 - __main__ - INFO -    2. 75.9% similar (arxiv source)
+2025-07-30 20:22:07,313 - __main__ - INFO -    3. 73.4% similar (arxiv source)
+2025-07-30 20:22:07,313 - __main__ - INFO - ============================================================
+2025-07-30 20:22:07,318 - __main__ - INFO - ============================================================
+2025-07-30 20:22:07,321 - werkzeug - INFO - 127.0.0.1 - - [30/Jul/2025 20:22:07] "POST /upload HTTP/1.1" 200 -
+2025-07-30 20:30:55,499 - werkzeug - INFO -  * Detected change in 'C:\\Users\\infin\\Documents\\CDAC_TU\\CheckPLG1\\backend\\app.py', reloading
+2025-07-30 20:30:57,414 - werkzeug - INFO -  * Restarting with stat
+2025-07-30 20:31:09,225 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-07-30 20:31:09,367 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-30 20:31:09,368 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-30 20:31:19,649 - __main__ - INFO - Starting Plagiarism Checker API...
+2025-07-30 20:31:19,649 - __main__ - INFO - Tavily API Key configured: Yes
+2025-07-30 20:31:19,650 - __main__ - INFO - ChromaDB path: chroma_db
+2025-07-30 20:31:19,662 - werkzeug - WARNING -  * Debugger is active!
+2025-07-30 20:31:19,683 - werkzeug - INFO -  * Debugger PIN: 290-483-295
+2025-07-30 20:31:20,935 - werkzeug - INFO -  * Detected change in 'C:\\Users\\infin\\Documents\\CDAC_TU\\CheckPLG1\\backend\\app.py', reloading
+2025-07-30 20:31:22,057 - werkzeug - INFO -  * Restarting with stat
+2025-07-30 20:31:33,523 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-07-30 20:31:33,710 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-30 20:31:33,711 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-30 20:31:47,414 - __main__ - INFO - Starting Plagiarism Checker API...
+2025-07-30 20:31:47,415 - __main__ - INFO - Tavily API Key configured: Yes
+2025-07-30 20:31:47,415 - __main__ - INFO - ChromaDB path: chroma_db
+2025-07-30 20:31:47,425 - werkzeug - WARNING -  * Debugger is active!
+2025-07-30 20:31:47,449 - werkzeug - INFO -  * Debugger PIN: 290-483-295
+2025-07-30 20:32:00,085 - werkzeug - INFO -  * Detected change in 'C:\\Users\\infin\\Documents\\CDAC_TU\\CheckPLG1\\backend\\services\\plagiarism_service.py', reloading
+2025-07-30 20:32:01,919 - werkzeug - INFO -  * Restarting with stat
+2025-07-30 20:32:13,415 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-07-30 20:32:13,571 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-30 20:32:13,572 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-30 20:32:22,404 - __main__ - INFO - Starting Plagiarism Checker API...
+2025-07-30 20:32:22,404 - __main__ - INFO - Tavily API Key configured: Yes
+2025-07-30 20:32:22,405 - __main__ - INFO - ChromaDB path: chroma_db
+2025-07-30 20:32:22,418 - werkzeug - WARNING -  * Debugger is active!
+2025-07-30 20:32:22,450 - werkzeug - INFO -  * Debugger PIN: 290-483-295
+2025-07-30 20:32:26,969 - werkzeug - INFO -  * Detected change in 'C:\\Users\\infin\\Documents\\CDAC_TU\\CheckPLG1\\backend\\utils\\pdf_extractor.py', reloading
+2025-07-30 20:32:28,924 - werkzeug - INFO -  * Restarting with stat
+2025-07-30 20:32:40,499 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-07-30 20:32:40,640 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-30 20:32:40,641 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-30 20:32:48,798 - __main__ - INFO - Starting Plagiarism Checker API...
+2025-07-30 20:32:48,799 - __main__ - INFO - Tavily API Key configured: Yes
+2025-07-30 20:32:48,799 - __main__ - INFO - ChromaDB path: chroma_db
+2025-07-30 20:32:48,810 - werkzeug - WARNING -  * Debugger is active!
+2025-07-30 20:32:48,827 - werkzeug - INFO -  * Debugger PIN: 290-483-295
+2025-07-30 21:37:05,013 - werkzeug - INFO -  * Detected change in 'C:\\Users\\infin\\Documents\\CDAC_TU\\CheckPLG1\\backend\\services\\tavily_service.py', reloading
+2025-07-30 21:37:06,537 - werkzeug - INFO -  * Restarting with stat
+2025-07-30 21:37:16,404 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-07-30 21:37:16,499 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-30 21:37:16,500 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-30 21:37:35,197 - __main__ - INFO - Starting Plagiarism Checker API...
+2025-07-30 21:37:35,197 - __main__ - INFO - Tavily API Key configured: Yes
+2025-07-30 21:37:35,197 - __main__ - INFO - ChromaDB path: chroma_db
+2025-07-30 21:37:35,210 - werkzeug - WARNING -  * Debugger is active!
+2025-07-30 21:37:35,223 - werkzeug - INFO -  * Debugger PIN: 290-483-295
+2025-07-30 21:37:53,542 - werkzeug - INFO -  * Detected change in 'C:\\Users\\infin\\Documents\\CDAC_TU\\CheckPLG1\\backend\\app.py', reloading
+2025-07-30 21:37:54,506 - werkzeug - INFO -  * Restarting with stat
+2025-07-30 21:38:24,527 - werkzeug - INFO -  * Restarting with stat

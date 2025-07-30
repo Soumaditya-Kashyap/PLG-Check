@@ -1,0 +1,146 @@
+/* FileUpload.css */
+
+.file-upload-container {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  max-width: 600px;
+  width: 100%;
+  min-width: 400px;
+}
+
+.file-upload-area {
+  border: 2px dashed #ddd;
+  border-radius: 8px;
+  padding: 3rem 2rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.file-upload-area:hover,
+.file-upload-area.drag-active {
+  border-color: #667eea;
+  background-color: #f8f9ff;
+}
+
+.upload-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.file-upload-area h3 {
+  margin-bottom: 0.5rem;
+  color: #333;
+  font-size: 1.5rem;
+}
+
+.file-upload-area p {
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+.browse-button {
+  background: #667eea;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 1rem;
+}
+
+.browse-button:hover {
+  background: #5a6fd8;
+  transform: translateY(-2px);
+}
+
+.file-upload-area small {
+  color: #999;
+  font-size: 0.9rem;
+}
+
+.selected-file {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: #f8f9ff;
+  border-radius: 8px;
+  border: 1px solid #e0e7ff;
+}
+
+.file-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.file-details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.file-details strong {
+  color: #333;
+  margin-bottom: 0.25rem;
+}
+
+.file-details span {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.remove-file {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0.25rem;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.remove-file:hover {
+  background-color: #ffebee;
+}
+
+.check-plagiarism-button {
+  width: 100%;
+  background: linear-gradient(135deg, #4caf50, #45a049);
+  color: white;
+  border: none;
+  padding: 1rem;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.check-plagiarism-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(76, 175, 80, 0.3);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .file-upload-container {
+    margin: 0 1rem;
+  }
+  
+  .file-upload-area {
+    padding: 2rem 1rem;
+  }
+  
+  .upload-icon {
+    font-size: 2rem;
+  }
+  
+  .file-upload-area h3 {
+    font-size: 1.25rem;
+  }
+}
