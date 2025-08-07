@@ -1,14 +1,20 @@
+
 import './PlagiarismResult.css'
 
 function PlagiarismResult({ results, onReset }) {
+  // Add safety check for results
+  if (!results) {
+    return <div>No results available</div>;
+  }
+
   const {
-    plagiarism_percentage,
-    total_chunks,
-    flagged_chunks,
-    matches,
-    sources_searched,
-    document_info,
-    arxiv_acknowledgment
+    plagiarism_percentage = 0,
+    total_chunks = 0,
+    flagged_chunks = 0,
+    matches = [],
+    sources_searched = {},
+    document_info = {},
+    arxiv_acknowledgment = ""
   } = results
 
   const getPercentageColor = (percentage) => {

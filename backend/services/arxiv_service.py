@@ -13,6 +13,42 @@ class ArxivService:
         self.rate_limit = Config.ARXIV_RATE_LIMIT
         self.session = requests.Session()
         
+    def get_paper_content(self, paper: Dict[str, Any]) -> str:
+        """Extract comprehensive content from arXiv paper for better matching"""
+        try:
+            content_parts = []
+            
+            # Add title (most important for matching)
+            if paper.get('title'):
+                content_parts.append(f"Title: {paper['title']}")
+            
+            # Add abstract (crucial for similarity detection)
+            if paper.get('summary'):
+                content_parts.append(f"Abstract: {paper['summary']}")
+            
+            # Add authors for context
+            if paper.get('authors'):
+                authors_str = ', '.join(paper['authors'][:5])  # Limit to first 5 authors
+                content_parts.append(f"Authors: {authors_str}")
+            
+            # Add categories/subjects
+            if paper.get('categories'):
+                content_parts.append(f"Categories: {paper['categories']}")
+            
+            # Combine all parts
+            full_content = ' '.join(content_parts)
+            
+            # Ensure content is substantial
+            if len(full_content) > 50:
+                return full_content
+            else:
+                # Fallback to just title and summary
+                return f"{paper.get('title', '')} {paper.get('summary', '')}"
+                
+        except Exception as e:
+            logger.error(f"Error extracting paper content: {str(e)}")
+            return paper.get('title', '') + ' ' + paper.get('summary', '')
+
     def search_papers(self, query: str, max_results: int = 10) -> List[Dict[str, Any]]:
         """Search for papers on arXiv using the API"""
         try:
@@ -131,18 +167,6 @@ class ArxivService:
         except Exception as e:
             logger.error(f"Unexpected error parsing arXiv response: {str(e)}")
             return []
-    
-    def get_paper_content(self, paper: Dict[str, Any]) -> str:
-        """Get searchable content from a paper (title + abstract)"""
-        content_parts = []
-        
-        if paper.get('title'):
-            content_parts.append(paper['title'])
-        
-        if paper.get('abstract'):
-            content_parts.append(paper['abstract'])
-        
-        return ' '.join(content_parts)
     
     def search_multiple_queries(self, queries: List[str], max_results_per_query: int = 5) -> List[Dict[str, Any]]:
         """Search arXiv with multiple queries to get diverse results"""

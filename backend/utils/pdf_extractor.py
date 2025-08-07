@@ -9,6 +9,43 @@ class PDFExtractor:
     def __init__(self):
         pass
     
+    def extract_title_from_pdf(self, pdf_file) -> Optional[str]:
+        """Extract document title for initial search optimization"""
+        try:
+            logger.info("Extracting document title...")
+            reader = PyPDF2.PdfReader(pdf_file)
+            
+            # Try to get title from PDF metadata first
+            if reader.metadata and reader.metadata.get('/Title'):
+                title = reader.metadata['/Title']
+                if len(title.strip()) > 3:
+                    logger.info(f"Title found in metadata: {title}")
+                    return title.strip()
+            
+            # If no metadata title, extract from first page
+            if len(reader.pages) > 0:
+                first_page = reader.pages[0].extract_text()
+                lines = first_page.split('\n')
+                
+                # Look for title-like text (first meaningful line)
+                for line in lines[:15]:  # Check first 15 lines
+                    line = line.strip()
+                    # Skip very short or very long lines
+                    if 15 <= len(line) <= 150:
+                        # Skip common headers
+                        if line.lower() not in ['abstract', 'introduction', 'contents', 'table of contents']:
+                            # Skip lines that look like page numbers or dates
+                            if not line.isdigit() and not line.startswith('Page'):
+                                logger.info(f"Title extracted from content: {line}")
+                                return line
+            
+            logger.info("No title found")
+            return None
+            
+        except Exception as e:
+            logger.error(f"Error extracting title: {str(e)}")
+            return None
+
     def extract_text_from_pdf(self, pdf_file) -> str:
         """Extract text from uploaded PDF file"""
         try:

@@ -9,6 +9,8 @@ from werkzeug.utils import secure_filename
 from config import Config
 from services.plagiarism_service import PlagiarismService
 from utils.pdf_extractor import PDFExtractor
+from utils.smart_text_processor import SmartTextProcessor
+from utils.text_processor import TextProcessor
 
 # Configure logging
 logging.basicConfig(
@@ -33,17 +35,21 @@ logger = logging.getLogger(__name__)
 app = Flask(__name__)
 CORS(app)
 
+# Load configuration from Config class
+app.config.from_object(Config)
+
 # Configuration
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
-UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = {'pdf'}
 
 # Ensure upload folder exists
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 # Initialize services
 plagiarism_service = PlagiarismService()
 pdf_extractor = PDFExtractor()
+smart_text_processor = SmartTextProcessor()
+text_processor = TextProcessor()
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -80,47 +86,92 @@ def upload_file():
             logger.warning(f"ERROR: Invalid file type - {file.filename}")
             return jsonify({'error': 'Only PDF files are allowed'}), 400
         
-        # Generate unique document ID
+        # Generate unique document ID and save file
         document_id = str(uuid.uuid4())
+        pdf_filename = f"{document_id}.pdf"
+        pdf_path = os.path.join(app.config['UPLOAD_FOLDER'], pdf_filename)
+        
+        # Ensure upload directory exists
+        os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+        
+        # Save uploaded file
+        file.save(pdf_path)
         
         logger.info(f"Processing file: {file.filename}")
         logger.info(f"Document ID: {document_id}")
-        logger.info(f"File size: {len(file.read())} bytes")
-        file.seek(0)  # Reset file pointer
+        logger.info(f"Saved to: {pdf_path}")
         
-        # Extract text from PDF
+        # Reset file pointer for extraction
+        file.seek(0)
+        
+        # Extract text from PDF using smart processor
         try:
-            logger.info("\nSTEP 1: EXTRACTING TEXT FROM PDF")
-            raw_text = pdf_extractor.extract_text_from_pdf(file)
+            logger.info("\nSTEP 1: EXTRACTING DOCUMENT TITLE")
+            # Extract title first for optimized search
+            document_title = pdf_extractor.extract_title_from_pdf(file)
+            if document_title:
+                logger.info(f"Document title: {document_title}")
+            else:
+                logger.info("No title found - proceeding with content analysis")
+            
+            logger.info("\nSTEP 2: EXTRACTING TEXT FROM PDF WITH SMART CHUNKING")
+            raw_text = smart_text_processor.extract_text_from_pdf(pdf_path)
             
             if not raw_text or len(raw_text.strip()) < 100:
                 logger.warning("ERROR: PDF appears to be empty or contains insufficient text")
                 return jsonify({'error': 'PDF appears to be empty or contains insufficient text'}), 400
             
-            # Clean and chunk the text
+            # Clean and chunk the text using SMART CHUNKING
             logger.info(f"Text extracted: {len(raw_text):,} characters")
             cleaned_text = pdf_extractor.clean_text(raw_text)
             
-            logger.info("\nSTEP 2: PREPARING TEXT FOR ANALYSIS")
-            text_chunks = pdf_extractor.chunk_text(cleaned_text)
+            logger.info("\nSTEP 3: PREPARING TEXT FOR SMART SEMANTIC ANALYSIS")
+            logger.info("🧠 Using Advanced Semantic Chunking...")
             
-            logger.info(f"Created {len(text_chunks)} text chunks for analysis")
-            logger.info(f"Average chunk size: {len(cleaned_text) // len(text_chunks) if text_chunks else 0} characters")
+            # Use smart chunker for semantic chunking
+            smart_chunks = smart_text_processor.create_semantic_chunks(pdf_path)
+            
+            # Extract document title
+            document_title = smart_text_processor.extract_title_from_text(cleaned_text)
+            
+            # Convert smart chunks to text chunks for compatibility
+            text_chunks = [chunk["text"] for chunk in smart_chunks]
+            
+            logger.info(f"✅ Created {len(smart_chunks)} SMART SEMANTIC chunks")
+            logger.info(f"📊 Sections identified: {len(set(chunk['section'] for chunk in smart_chunks))}")
+            
+            # Log section breakdown
+            sections = {}
+            for chunk in smart_chunks:
+                section = chunk["section"]
+                if section not in sections:
+                    sections[section] = 0
+                sections[section] += 1
+            
+            logger.info("📑 Section breakdown:")
+            for section, count in sections.items():
+                logger.info(f"   • {section}: {count} chunks")
+            
+            avg_chunk_size = len(cleaned_text) // len(text_chunks) if text_chunks else 0
+            logger.info(f"📏 Average chunk size: {avg_chunk_size} characters")
         except Exception as e:
             logger.error(f"ERROR: Failed to extract text from PDF - {str(e)}")
             return jsonify({'error': f'Failed to extract text from PDF: {str(e)}'}), 400
         
         # Perform plagiarism check
         try:
-            logger.info("\nSTEP 3: STARTING PLAGIARISM ANALYSIS")
+            logger.info("\nSTEP 4: STARTING CHUNK-BY-CHUNK PLAGIARISM ANALYSIS")
+            if document_title:
+                logger.info(f"Using title for enhanced search: {document_title}")
             logger.info("Searching academic papers and web content...")
             
-            results = plagiarism_service.check_plagiarism(text_chunks, document_id)
+            results = plagiarism_service.check_plagiarism(text_chunks, document_id, document_title)
             
             # Add document metadata
             results['document_info'] = {
                 'document_id': document_id,
                 'filename': secure_filename(file.filename),
+                'document_title': document_title,
                 'upload_time': datetime.now().isoformat(),
                 'text_length': len(cleaned_text),
                 'chunk_count': len(text_chunks)
