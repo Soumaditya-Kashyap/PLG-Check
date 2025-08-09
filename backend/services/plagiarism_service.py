@@ -37,9 +37,12 @@ class PlagiarismService:
                 metadata={"hnsw:space": "cosine"}
             )
     
-    def _generate_id(self, text: str) -> str:
-        """Generate a unique ID for text content"""
-        return hashlib.md5(text.encode()).hexdigest()
+    def _generate_id(self, text: str, url: str = "") -> str:
+        """Generate a unique ID for text content using content and URL"""
+        import uuid
+        # Use both content and URL to create more unique IDs
+        combined = f"{url}||{text}"
+        return hashlib.md5(combined.encode()).hexdigest()
     
     def store_pdf_content(self, pdf_chunks: List[str], document_id: str) -> None:
         """Store PDF content chunks in ChromaDB"""
@@ -76,12 +79,32 @@ class PlagiarismService:
             documents = []
             metadatas = []
             ids = []
+            seen_ids = set()  # Track IDs in current batch
             
             for paper in papers:
                 content = self.arxiv_service.get_paper_content(paper)
                 if content:
+                    arxiv_url = paper.get('url', '')
+                    content_id = self._generate_id(content, arxiv_url)
+                    
+                    # Skip if we've already seen this ID in current batch
+                    if content_id in seen_ids:
+                        logger.debug(f"Skipping duplicate arXiv paper in current batch: {content_id}")
+                        continue
+                    
+                    # Check if this content already exists in database
+                    try:
+                        existing = self.arxiv_collection.get(ids=[content_id])
+                        if existing['ids']:  # Content already exists, skip it
+                            logger.debug(f"Skipping duplicate arXiv paper with ID: {content_id}")
+                            continue
+                    except Exception:
+                        # ID doesn't exist, we can add it
+                        pass
+                    
                     documents.append(content)
-                    ids.append(self._generate_id(content))
+                    ids.append(content_id)
+                    seen_ids.add(content_id)  # Mark as seen
                     metadatas.append({
                         "title": paper.get('title', ''),
                         "authors": ', '.join(paper.get('authors', [])),
@@ -113,12 +136,32 @@ class PlagiarismService:
             documents = []
             metadatas = []
             ids = []
+            seen_ids = set()  # Track IDs in current batch
             
             for result in web_results:
                 content = result.get('extracted_content', '')
+                url = result.get('url', '')
                 if content and len(content) > 100:
+                    content_id = self._generate_id(content, url)
+                    
+                    # Skip if we've already seen this ID in current batch
+                    if content_id in seen_ids:
+                        logger.debug(f"Skipping duplicate content in current batch: {content_id}")
+                        continue
+                    
+                    # Check if this content already exists in database
+                    try:
+                        existing = self.web_collection.get(ids=[content_id])
+                        if existing['ids']:  # Content already exists, skip it
+                            logger.debug(f"Skipping duplicate web content with ID: {content_id}")
+                            continue
+                    except Exception:
+                        # ID doesn't exist, we can add it
+                        pass
+                    
                     documents.append(content)
-                    ids.append(self._generate_id(content))
+                    ids.append(content_id)
+                    seen_ids.add(content_id)  # Mark as seen
                     metadatas.append({
                         "url": result.get('url', ''),
                         "title": result.get('title', ''),

@@ -1,1 +1,5 @@
 *.env
+uploads
+chroma_db
+backend/chroma_db
+From_dev
