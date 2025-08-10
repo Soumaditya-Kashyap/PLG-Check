@@ -1,1 +1,5 @@
 *.env
+From_dev
+results
+scraped_data
+uploads

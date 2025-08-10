@@ -6,6 +6,7 @@ load_dotenv()
 class Config:
     TAVILY_API_KEY = os.getenv('TAVILY_API_KEY')
     GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
+    GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')  # For LLM service
     CHROMA_DB_PATH = "chroma_db"
     UPLOAD_FOLDER = "uploads"
     SIMILARITY_THRESHOLD = 0.7

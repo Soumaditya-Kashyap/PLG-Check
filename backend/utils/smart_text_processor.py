@@ -137,125 +137,364 @@ class SmartTextProcessor:
         return blocks
 
     def create_semantic_chunks(self, pdf_path: str, threshold: int = 3) -> List[Dict[str, Any]]:
-        """Create semantic chunks based on document structure"""
-        logger.info(f"Creating semantic chunks for: {pdf_path}")
+        """Create high-quality semantic chunks like leader's format - clean, longer, meaningful content"""
+        logger.info(f"🧠 Creating high-quality semantic chunks for: {pdf_path}")
         
         try:
-            blocks = self.extract_blocks_with_layout(pdf_path)
-            if not blocks:
-                logger.warning("No blocks extracted, falling back to simple chunking")
-                full_text = self.extract_text_from_pdf(pdf_path)
-                return self.create_simple_chunks(full_text)
+            # Extract text with better structure preservation
+            doc = fitz.open(pdf_path)
+            all_sections = []
+            current_section = {
+                "title": "Document Content",
+                "content": "",
+                "page": 1
+            }
+            
+            for page_num, page in enumerate(doc, start=1):
+                # Get text with layout information
+                text_dict = page.get_text("dict")
                 
-            logger.info(f"Extracted {len(blocks)} text blocks")
-            scored_blocks = self.compute_scores(blocks)
-            sections = []
-            current_section = None
-
-            for block in scored_blocks:
-                text = block["text"]
-                score = block["score"]
-
-                if score >= threshold:
-                    # New heading found
-                    if current_section and current_section["content"].strip():
-                        sections.append(current_section)
-
-                    # Clean up section title
-                    title = text.strip()
-                    title_lower = title.lower()
+                for block in text_dict["blocks"]:
+                    if "lines" not in block:
+                        continue
                     
-                    # Determine section title
-                    if any(known in title_lower for known in self.known_headings):
-                        section_title = title.title()
-                    else:
-                        section_title = title
-
-                    current_section = {
-                        "section": section_title,
-                        "content": "",
-                        "type": "section",
-                        "page": block["page"]
-                    }
-                    logger.debug(f"New section detected: {section_title}")
-                else:
-                    # Regular content
-                    if current_section:
-                        current_section["content"] += text + "\n"
-                    else:
-                        # Content without header
+                    # Extract text from block
+                    block_text = ""
+                    for line in block["lines"]:
+                        line_text = ""
+                        for span in line["spans"]:
+                            line_text += span["text"]
+                        
+                        if line_text.strip():
+                            block_text += line_text.strip() + " "
+                    
+                    if not block_text.strip():
+                        continue
+                    
+                    # Check if this block is a section heading
+                    if self._is_quality_section_heading(block_text.strip()):
+                        # Save previous section if it has substantial content
+                        if current_section["content"].strip() and len(current_section["content"].strip()) > 150:
+                            all_sections.append(current_section.copy())
+                        
+                        # Start new section
                         current_section = {
-                            "section": "Document Content",
-                            "content": text + "\n",
-                            "type": "content",
-                            "page": block["page"]
+                            "title": self._clean_section_title(block_text.strip()),
+                            "content": "",
+                            "page": page_num
                         }
-
-            # Add final section
-            if current_section and current_section["content"].strip():
-                sections.append(current_section)
-
-            logger.info(f"Identified {len(sections)} sections")
-
-            # Convert to chunks suitable for plagiarism detection
-            chunks = []
-            for i, section in enumerate(sections):
-                content = section["content"].strip()
-                if len(content) > 50:  # Only meaningful content
-                    # Split large sections into smaller chunks
-                    if len(content) > 2000:
-                        sub_chunks = self.split_large_section(content, section["section"], section["page"])
-                        chunks.extend(sub_chunks)
+                        logger.debug(f"📝 New section: {current_section['title']}")
                     else:
-                        chunks.append({
-                            "text": content,
-                            "section": section["section"],
-                            "chunk_index": len(chunks),
-                            "type": section["type"],
-                            "page": section["page"],
-                            "start_pos": 0,  # For compatibility
-                            "end_pos": len(content)
-                        })
-
-            logger.info(f"Created {len(chunks)} semantic chunks")
-            return chunks if chunks else self.create_simple_chunks(self.extract_text_from_pdf(pdf_path))
+                        # Add content to current section
+                        clean_content = self._clean_content_text(block_text)
+                        if clean_content:
+                            current_section["content"] += clean_content + " "
+            
+            # Add final section
+            if current_section["content"].strip() and len(current_section["content"].strip()) > 150:
+                all_sections.append(current_section)
+            
+            doc.close()
+            
+            # Create high-quality chunks from sections
+            final_chunks = self._create_leader_quality_chunks(all_sections)
+            
+            logger.info(f"✅ Created {len(final_chunks)} leader-quality semantic chunks")
+            return final_chunks if final_chunks else self._fallback_quality_chunking(pdf_path)
 
         except Exception as e:
-            logger.error(f"Smart chunking failed: {e}, falling back to simple chunking")
-            full_text = self.extract_text_from_pdf(pdf_path)
-            return self.create_simple_chunks(full_text)
+            logger.error(f"Quality chunking failed: {e}, using fallback")
+            return self._fallback_quality_chunking(pdf_path)
 
-    def split_large_section(self, content: str, section_name: str, page: int) -> List[Dict[str, Any]]:
-        """Split large sections into smaller chunks while preserving context"""
+    def _is_quality_section_heading(self, text: str) -> bool:
+        """Improved section heading detection for better quality chunks"""
+        text_clean = text.strip()
+        text_lower = text_clean.lower()
+        
+        # Skip very long lines (likely content, not headings)
+        if len(text_clean) > 120:
+            return False
+        
+        # Skip very short lines
+        if len(text_clean) < 4:
+            return False
+        
+        # Priority 1: Numbered sections (1. Introduction, 2.1 Background, etc.)
+        numbering_patterns = [
+            r'^\d+\.\s+[A-Z]',  # 1. Introduction
+            r'^\d+\.\d+\s+[A-Z]',  # 2.1 Background
+            r'^\d+\.\d+\.\d+\s+[A-Z]',  # 2.1.1 Details
+            r'^[IVX]+\.\s+[A-Z]',  # I. Introduction (Roman numerals)
+            r'^[A-Z]\.\s+[A-Z]',  # A. Section
+        ]
+        
+        for pattern in numbering_patterns:
+            if re.match(pattern, text_clean):
+                return True
+        
+        # Priority 2: Known academic section headers
+        academic_sections = [
+            'abstract', 'introduction', 'background', 'literature review',
+            'methodology', 'methods', 'approach', 'implementation',
+            'results', 'findings', 'evaluation', 'experiments',
+            'discussion', 'analysis', 'conclusion', 'conclusions',
+            'future work', 'references', 'bibliography', 'acknowledgments',
+            'related work', 'case study', 'data collection', 'survey'
+        ]
+        
+        for section in academic_sections:
+            if text_lower == section or text_lower.startswith(section + ' '):
+                return True
+        
+        # Priority 3: Formatting clues
+        # All caps (common for headings)
+        if text_clean.isupper() and 4 <= len(text_clean) <= 60:
+            return True
+        
+        # Title case without ending punctuation
+        if (text_clean.istitle() and 
+            not text_clean.endswith('.') and 
+            not text_clean.endswith(',') and
+            5 <= len(text_clean) <= 80):
+            return True
+        
+        return False
+    
+    def _clean_section_title(self, title: str) -> str:
+        """Clean up section titles"""
+        # Remove numbering
+        title = re.sub(r'^\s*\d+(\.\d+)*\s*', '', title)
+        title = re.sub(r'^\s*[IVXLC]+\.\s*', '', title)
+        title = re.sub(r'^\s*[A-Z]\.\s*', '', title)
+        
+        # Clean up
+        title = title.strip()
+        if not title:
+            return "Content"
+        
+        # Convert to title case if all caps
+        if title.isupper():
+            title = title.title()
+        
+        # Limit length
+        if len(title) > 60:
+            title = title[:60] + "..."
+        
+        return title
+    
+    def _clean_content_text(self, text: str) -> str:
+        """Clean content text for better readability"""
+        # Remove excessive whitespace
+        text = re.sub(r'\s+', ' ', text)
+        
+        # Fix hyphenated line breaks
+        text = re.sub(r'-\s+', '', text)
+        
+        # Fix sentence spacing
+        text = re.sub(r'\.(\w)', r'. \1', text)
+        
+        # Remove isolated numbers/page numbers
+        text = re.sub(r'\b\d+\b(?=\s*$)', '', text)
+        
+        # Remove repeated characters
+        text = re.sub(r'(.)\1{4,}', r'\1', text)
+        
+        return text.strip()
+    
+    def _create_leader_quality_chunks(self, sections: List[Dict]) -> List[Dict[str, Any]]:
+        """Create high-quality chunks similar to leader's format"""
         chunks = []
         
-        # Try to split by sentences first
-        sentences = re.split(r'(?<=[.!?])\s+', content)
-        current_chunk = ""
-        
-        for sentence in sentences:
-            if len(current_chunk + sentence) < 1500:
-                current_chunk += sentence + " "
+        for section in sections:
+            title = section["title"]
+            content = section["content"].strip()
+            page = section["page"]
+            
+            if len(content) < 200:  # Skip very short sections
+                continue
+            
+            # If section is reasonably sized, keep as one chunk
+            if len(content) <= 2500:
+                chunks.append({
+                    "text": self._format_chunk_text(content),
+                    "section": title,
+                    "page": page
+                })
             else:
-                if current_chunk.strip():
+                # Split long sections intelligently
+                sub_chunks = self._split_long_section(content, title, page)
+                chunks.extend(sub_chunks)
+        
+        return chunks
+    
+    def _format_chunk_text(self, text: str) -> str:
+        """Format chunk text for maximum readability and quality"""
+        # Split into sentences and rejoin properly
+        sentences = re.split(r'(?<=[.!?])\s+', text)
+        
+        # Clean each sentence
+        clean_sentences = []
+        for sentence in sentences:
+            sentence = sentence.strip()
+            if len(sentence) > 10:  # Skip very short fragments
+                # Ensure proper capitalization
+                if sentence and sentence[0].islower():
+                    sentence = sentence[0].upper() + sentence[1:]
+                clean_sentences.append(sentence)
+        
+        # Rejoin with proper spacing
+        formatted_text = ' '.join(clean_sentences)
+        
+        # Final cleanup
+        formatted_text = re.sub(r'\s+', ' ', formatted_text)
+        
+        return formatted_text.strip()
+    
+    def _split_long_section(self, content: str, section_title: str, page: int) -> List[Dict[str, Any]]:
+        """Split long sections at natural boundaries"""
+        # Split into paragraphs first
+        paragraphs = [p.strip() for p in content.split('\n\n') if p.strip()]
+        
+        chunks = []
+        current_chunk = ""
+        chunk_count = 1
+        
+        for para in paragraphs:
+            # If adding this paragraph would make chunk too long, save current chunk
+            if len(current_chunk + para) > 2000 and current_chunk.strip():
+                chunks.append({
+                    "text": self._format_chunk_text(current_chunk),
+                    "section": f"{section_title} (Part {chunk_count})",
+                    "page": page
+                })
+                current_chunk = para + "\n\n"
+                chunk_count += 1
+            else:
+                current_chunk += para + "\n\n"
+        
+        # Add final chunk
+        if current_chunk.strip():
+            chunk_title = f"{section_title} (Part {chunk_count})" if chunk_count > 1 else section_title
+            chunks.append({
+                "text": self._format_chunk_text(current_chunk),
+                "section": chunk_title,
+                "page": page
+            })
+        
+        return chunks
+    
+    def _fallback_quality_chunking(self, pdf_path: str) -> List[Dict[str, Any]]:
+        """High-quality fallback chunking"""
+        try:
+            text = self.extract_text_from_pdf(pdf_path)
+            if not text:
+                return []
+            
+            # Clean the entire text
+            text = self._clean_content_text(text)
+            
+            # Split into paragraphs
+            paragraphs = [p.strip() for p in text.split('\n\n') if p.strip() and len(p.strip()) > 50]
+            
+            chunks = []
+            current_chunk = ""
+            chunk_num = 1
+            
+            for para in paragraphs:
+                if len(current_chunk + para) > 2000 and current_chunk.strip():
+                    chunks.append({
+                        "text": self._format_chunk_text(current_chunk),
+                        "section": f"Document Content (Part {chunk_num})",
+                        "page": 1
+                    })
+                    current_chunk = para + "\n\n"
+                    chunk_num += 1
+                else:
+                    current_chunk += para + "\n\n"
+            
+            # Add final chunk
+            if current_chunk.strip():
+                chunks.append({
+                    "text": self._format_chunk_text(current_chunk),
+                    "section": f"Document Content (Part {chunk_num})" if chunk_num > 1 else "Document Content",
+                    "page": 1
+                })
+            
+            return chunks
+            
+        except Exception as e:
+            logger.error(f"Fallback chunking failed: {str(e)}")
+            return []
+
+    def clean_text_block(self, text: str) -> str:
+        """Clean and normalize text block"""
+        # Remove excessive whitespace
+        text = re.sub(r'\s+', ' ', text)
+        # Fix common PDF extraction issues
+        text = re.sub(r'-\s*\n\s*', '', text)  # Remove hyphenated line breaks
+        text = re.sub(r'\n+', ' ', text)  # Replace newlines with spaces
+        # Remove extra spaces
+        text = text.strip()
+        return text
+
+    def create_clean_chunks_from_section(self, content: str, section_name: str, page: int) -> List[Dict[str, Any]]:
+        """Create clean, sentence-aware chunks from a section"""
+        chunks = []
+        
+        # Split content into paragraphs first
+        paragraphs = [p.strip() for p in content.split('\n\n') if p.strip()]
+        
+        current_chunk = ""
+        target_length = 1000  # Target length for chunks
+        max_length = 1800     # Maximum length before forcing split
+        
+        for paragraph in paragraphs:
+            # Check if adding this paragraph would exceed max length
+            if current_chunk and len(current_chunk + paragraph) > max_length:
+                # Save current chunk if it's substantial
+                if len(current_chunk.strip()) > 50:
                     chunks.append({
                         "text": current_chunk.strip(),
-                        "section": f"{section_name} (Part {len(chunks) + 1})",
+                        "section": section_name,
                         "chunk_index": len(chunks),
-                        "type": "section_part",
+                        "type": "section_content",
                         "page": page,
                         "start_pos": 0,
                         "end_pos": len(current_chunk.strip())
                     })
-                current_chunk = sentence + " "
+                current_chunk = paragraph + "\n"
+            else:
+                current_chunk += paragraph + "\n"
+                
+                # If we've reached a good size, check for natural break
+                if len(current_chunk) >= target_length:
+                    # Look for a good breaking point (end of sentence + some content)
+                    sentences = re.split(r'(?<=[.!?])\s+', current_chunk)
+                    if len(sentences) > 2:  # At least 2 complete sentences
+                        # Find a good break point (around 2/3 through)
+                        break_point = len(sentences) * 2 // 3
+                        chunk_text = ' '.join(sentences[:break_point]).strip()
+                        remaining_text = ' '.join(sentences[break_point:]).strip()
+                        
+                        if len(chunk_text) > 100:  # Ensure chunk is substantial
+                            chunks.append({
+                                "text": chunk_text,
+                                "section": section_name,
+                                "chunk_index": len(chunks),
+                                "type": "section_content",
+                                "page": page,
+                                "start_pos": 0,
+                                "end_pos": len(chunk_text)
+                            })
+                            current_chunk = remaining_text + "\n" if remaining_text else ""
         
-        # Add remaining content
-        if current_chunk.strip():
+        # Add any remaining content as final chunk
+        if current_chunk.strip() and len(current_chunk.strip()) > 50:
             chunks.append({
                 "text": current_chunk.strip(),
-                "section": f"{section_name} (Part {len(chunks) + 1})" if chunks else section_name,
+                "section": section_name,
                 "chunk_index": len(chunks),
-                "type": "section_part",
+                "type": "section_content",
                 "page": page,
                 "start_pos": 0,
                 "end_pos": len(current_chunk.strip())
@@ -263,11 +502,54 @@ class SmartTextProcessor:
             
         return chunks
 
-    def create_simple_chunks(self, text: str) -> List[Dict[str, Any]]:
-        """Fallback simple chunking method"""
-        logger.info("Using fallback simple chunking")
+    def create_sentence_aware_chunks(self, text: str) -> List[Dict[str, Any]]:
+        """Create sentence-aware chunks as fallback method"""
+        logger.info("Using sentence-aware chunking")
         chunks = []
-        words = text.split()
+        
+        # Clean the text
+        text = self.clean_text_block(text)
+        
+        # Split into sentences
+        sentences = re.split(r'(?<=[.!?])\s+', text)
+        
+        current_chunk = ""
+        chunk_size = 800  # Target chunk size
+        
+        for sentence in sentences:
+            if len(current_chunk + sentence) <= chunk_size * 1.5:  # Allow some flexibility
+                current_chunk += sentence + " "
+            else:
+                if current_chunk.strip():
+                    chunks.append({
+                        "text": current_chunk.strip(),
+                        "section": "Unknown",
+                        "chunk_index": len(chunks),
+                        "type": "text_chunk",
+                        "page": 1,
+                        "start_pos": 0,
+                        "end_pos": len(current_chunk.strip())
+                    })
+                current_chunk = sentence + " "
+        
+        # Add final chunk
+        if current_chunk.strip():
+            chunks.append({
+                "text": current_chunk.strip(),
+                "section": "Unknown",
+                "chunk_index": len(chunks),
+                "type": "text_chunk",
+                "page": 1,
+                "start_pos": 0,
+                "end_pos": len(current_chunk.strip())
+            })
+            
+        return chunks
+
+    def create_simple_chunks(self, text: str) -> List[Dict[str, Any]]:
+        """Legacy fallback method - redirects to sentence-aware chunking"""
+        logger.info("Redirecting to sentence-aware chunking")
+        return self.create_sentence_aware_chunks(text)
         chunk_size = 300
         
         for i in range(0, len(words), chunk_size):
