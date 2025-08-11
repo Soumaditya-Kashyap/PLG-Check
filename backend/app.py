@@ -465,6 +465,78 @@ def upload_file():
             arxiv_papers_downloaded = 0
             arxiv_results = {"error": str(e)}
         
+        # STEP 5: Web Data Collection using Tavily
+        try:
+            logger.info("\nSTEP 5: COLLECTING WEB DATA WITH TAVILY")
+            
+            # Extract text chunks from the simple_chunks for web search
+            chunk_texts = [chunk["text"] for chunk in simple_chunks if len(chunk["text"].strip()) > 100]
+            
+            # Limit chunks to avoid overwhelming the API (select most relevant ones)
+            if len(chunk_texts) > 10:
+                # Take every Nth chunk to get diverse content
+                step = len(chunk_texts) // 10
+                selected_chunks = chunk_texts[::step][:10]
+                logger.info(f"📄 Selected {len(selected_chunks)} representative chunks from {len(chunk_texts)} total chunks")
+            else:
+                selected_chunks = chunk_texts
+                logger.info(f"📄 Using all {len(selected_chunks)} chunks for web search")
+            
+            if selected_chunks:
+                # Initialize Tavily service
+                from services.tavily_service import TavilyService
+                tavily_service = TavilyService()
+                
+                # Set custom directory for this document  
+                web_content_dir = os.path.join(web_dir, "content")
+                os.makedirs(web_content_dir, exist_ok=True)
+                
+                # Process chunks for web search
+                logger.info(f"🌐 Searching web content with selected chunks...")
+                web_results = tavily_service.process_chunks_batch(
+                    chunks=selected_chunks,
+                    max_results_per_chunk=2,  # 2 results per chunk to avoid overwhelming
+                    custom_content_dir=web_content_dir
+                )
+                
+                # Save web results metadata
+                web_metadata_path = os.path.join(web_dir, "web_results.json")
+                web_summary = {
+                    'total_chunks_processed': len(selected_chunks),
+                    'total_results_found': sum(r.get('results_found', 0) for r in web_results),
+                    'total_content_extracted': sum(r.get('content_extracted', 0) for r in web_results),
+                    'processing_date': datetime.now().isoformat(),
+                    'storage_paths': {
+                        'content_dir': web_content_dir,
+                        'metadata_dir': os.path.join(web_content_dir, 'metadata')
+                    },
+                    'chunk_results': web_results
+                }
+                
+                with open(web_metadata_path, 'w', encoding='utf-8') as f:
+                    json.dump(web_summary, f, indent=2, ensure_ascii=False)
+                
+                logger.info(f"🌐 Web Collection Results:")
+                logger.info(f"   Chunks Processed: {web_summary['total_chunks_processed']}")
+                logger.info(f"   Web Results Found: {web_summary['total_results_found']}")
+                logger.info(f"   Content Extracted: {web_summary['total_content_extracted']}")
+                logger.info(f"   Storage: {web_content_dir}")
+                
+                web_success = True
+                web_content_extracted = web_summary['total_content_extracted']
+                web_results_summary = web_summary
+            else:
+                logger.warning("⚠️ No valid chunks found for web search")
+                web_success = False
+                web_content_extracted = 0
+                web_results_summary = {"error": "No valid chunks for search"}
+                
+        except Exception as e:
+            logger.error(f"ERROR: Web data collection failed - {str(e)}")
+            web_success = False
+            web_content_extracted = 0
+            web_results_summary = {"error": str(e)}
+        
         # Prepare response
         results = {
             'success': True,
@@ -488,6 +560,12 @@ def upload_file():
                 'papers_downloaded': arxiv_papers_downloaded if 'arxiv_papers_downloaded' in locals() else 0,
                 'storage_path': arxiv_pdf_dir if 'arxiv_pdf_dir' in locals() else None,
                 'results': arxiv_results if 'arxiv_results' in locals() else {}
+            },
+            'web_collection': {
+                'success': web_success if 'web_success' in locals() else False,
+                'content_extracted': web_content_extracted if 'web_content_extracted' in locals() else 0,
+                'storage_path': web_content_dir if 'web_content_dir' in locals() else None,
+                'results': web_results_summary if 'web_results_summary' in locals() else {}
             }
         }
         
@@ -506,6 +584,10 @@ def upload_file():
         if 'arxiv_success' in locals() and arxiv_success:
             logger.info(f"ArXiv Papers Downloaded: {arxiv_papers_downloaded}")
             logger.info(f"ArXiv Storage: {arxiv_pdf_dir}")
+        
+        if 'web_success' in locals() and web_success:
+            logger.info(f"Web Content Extracted: {web_content_extracted}")
+            logger.info(f"Web Storage: {web_content_dir}")
         
         logger.info(f"Files Created:")
         logger.info(f"  - {chunks_json_path}")
