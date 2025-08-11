@@ -17,18 +17,9 @@ class TavilyService:
         self.base_url = "https://api.tavily.com/search"
         self.session = requests.Session()
         
-        # Set up storage directories
-        self.storage_base = os.path.join(Config.UPLOAD_FOLDER, 'web_data')
-        self.content_dir = os.path.join(self.storage_base, 'content')
-        self.metadata_dir = os.path.join(self.storage_base, 'metadata')
-        
-        # Ensure directories exist
-        os.makedirs(self.content_dir, exist_ok=True)
-        os.makedirs(self.metadata_dir, exist_ok=True)
-        
-        # Create directories if they don't exist
-        os.makedirs(self.content_dir, exist_ok=True)
-        os.makedirs(self.metadata_dir, exist_ok=True)
+        # Default storage properties (will be overridden when called with custom dirs)
+        self.content_dir = None
+        self.metadata_dir = None
         
         # Configure session with anti-403 headers
         self.session.headers.update({

@@ -17,14 +17,9 @@ class ArxivService:
         self.rate_limit = Config.ARXIV_RATE_LIMIT
         self.session = requests.Session()
         
-        # Set up storage directories
-        self.storage_base = os.path.join(Config.UPLOAD_FOLDER, 'arxiv_data')
-        self.pdfs_dir = os.path.join(self.storage_base, 'pdfs')
-        self.metadata_dir = os.path.join(self.storage_base, 'metadata')
-        
-        # Create directories if they don't exist
-        os.makedirs(self.pdfs_dir, exist_ok=True)
-        os.makedirs(self.metadata_dir, exist_ok=True)
+        # Default storage properties (will be overridden when called with custom dirs)
+        self.pdfs_dir = None
+        self.metadata_dir = None
         
         # Configure session for better reliability
         self.session.headers.update({

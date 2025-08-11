@@ -8,7 +8,6 @@ from datetime import datetime
 from werkzeug.utils import secure_filename
 
 from config import Config
-from services.plagiarism_service import PlagiarismService
 from services.data_collection_service import DataCollectionService
 from utils.pdf_extractor import PDFExtractor
 from utils.smart_text_processor import SmartTextProcessor
@@ -30,7 +29,6 @@ logging.getLogger('urllib3').setLevel(logging.WARNING)
 logging.getLogger('requests').setLevel(logging.WARNING)
 logging.getLogger('sentence_transformers').setLevel(logging.WARNING)
 logging.getLogger('transformers').setLevel(logging.WARNING)
-logging.getLogger('chromadb').setLevel(logging.WARNING)
 
 logger = logging.getLogger(__name__)
 
@@ -48,7 +46,6 @@ ALLOWED_EXTENSIONS = {'pdf'}
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 # Initialize services
-plagiarism_service = PlagiarismService()
 data_collection_service = DataCollectionService()
 pdf_extractor = PDFExtractor()
 smart_text_processor = SmartTextProcessor()
@@ -753,7 +750,6 @@ if __name__ == '__main__':
     print("=" * 50)
     logger.info("Starting server...")
     logger.info(f"Tavily API Key: {'Configured' if Config.TAVILY_API_KEY else 'Missing'}")
-    logger.info(f"ChromaDB path: {Config.CHROMA_DB_PATH}")
     logger.info("Server ready at http://127.0.0.1:5000")
     print("=" * 50)
     
