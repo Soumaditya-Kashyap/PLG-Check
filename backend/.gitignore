@@ -6,3 +6,4 @@ uploads
 similarity.py
 __pycache__/
 *.pyc
+faiss_vector_db

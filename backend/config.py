@@ -9,6 +9,7 @@ class Config:
     GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')  # For LLM service
     UPLOAD_FOLDER = "uploads"
     SCRAPED_DATA_FOLDER = "scraped_data"
+    FAISS_VECTOR_DB_FOLDER = "faiss_vector_db"
     SIMILARITY_THRESHOLD = 0.7
     ARXIV_BASE_URL = "http://export.arxiv.org/api/query"
     ARXIV_RATE_LIMIT = 1  # seconds between requests

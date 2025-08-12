@@ -9,9 +9,8 @@ from werkzeug.utils import secure_filename
 
 from config import Config
 from services.data_collection_service import DataCollectionService
-from utils.pdf_extractor import PDFExtractor
+from services.faiss_vector_service import FAISSVectorService
 from utils.smart_text_processor import SmartTextProcessor
-from utils.text_processor import TextProcessor
 
 # Configure logging
 logging.basicConfig(
@@ -47,9 +46,8 @@ os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 # Initialize services
 data_collection_service = DataCollectionService()
-pdf_extractor = PDFExtractor()
+faiss_vector_service = FAISSVectorService(vector_db_path=Config.FAISS_VECTOR_DB_FOLDER)
 smart_text_processor = SmartTextProcessor()
-text_processor = TextProcessor()
 
 def extract_fallback_keywords(text):
     """Extract keywords using simple text analysis"""
@@ -159,7 +157,7 @@ def upload_file():
             
             # Clean and chunk the text using SMART CHUNKING
             logger.info(f"Text extracted: {len(raw_text):,} characters")
-            cleaned_text = pdf_extractor.clean_text(raw_text)
+            cleaned_text = smart_text_processor.clean_text_block(raw_text)
             
             logger.info("\nSTEP 2: CREATING SMART SEMANTIC CHUNKS")
             logger.info("🧠 Using Advanced Semantic Chunking...")
@@ -586,6 +584,76 @@ def upload_file():
             logger.info(f"Web Content Extracted: {web_content_extracted}")
             logger.info(f"Web Storage: {web_content_dir}")
         
+        # Process FAISS embeddings for scraped data
+        faiss_results = {}
+        try:
+            logger.info("🔄 Starting FAISS embedding creation...")
+            
+            # Check if we have scraped data to process
+            if 'document_scraped_dir' in locals() and document_scraped_dir:
+                # Process the scraped data for this specific document
+                faiss_processing_results = faiss_vector_service.process_scraped_data_folder(document_scraped_dir)
+                
+                if faiss_processing_results.get('total_chunks_added', 0) > 0:
+                    faiss_results = {
+                        'success': True,
+                        'document_id': faiss_processing_results.get('document_id'),
+                        'total_chunks_added': faiss_processing_results.get('total_chunks_added', 0),
+                        'arxiv_papers_processed': faiss_processing_results.get('arxiv_papers_processed', 0),
+                        'arxiv_chunks': faiss_processing_results.get('arxiv_chunks', 0),
+                        'web_content_processed': faiss_processing_results.get('web_content_processed', 0),
+                        'web_chunks': faiss_processing_results.get('web_chunks', 0),
+                        'processing_errors': faiss_processing_results.get('processing_errors', [])
+                    }
+                    
+                    logger.info(f"✅ FAISS embeddings created successfully!")
+                    logger.info(f"📊 Total chunks added: {faiss_results['total_chunks_added']}")
+                    logger.info(f"� ArXiv papers: {faiss_results['arxiv_papers_processed']} ({faiss_results['arxiv_chunks']} chunks)")
+                    logger.info(f"🌐 Web content: {faiss_results['web_content_processed']} ({faiss_results['web_chunks']} chunks)")
+                    
+                    if faiss_results['processing_errors']:
+                        logger.warning(f"⚠️ Processing errors: {len(faiss_results['processing_errors'])}")
+                else:
+                    faiss_results = {
+                        'success': False, 
+                        'error': 'No chunks were added to FAISS index',
+                        'processing_errors': faiss_processing_results.get('processing_errors', [])
+                    }
+                    logger.warning(f"⚠️ FAISS processing completed with issues: {faiss_results['error']}")
+            else:
+                logger.info("ℹ️ No scraped data found - skipping FAISS processing")
+                faiss_results = {'success': False, 'error': 'No scraped data available'}
+                
+        except Exception as faiss_error:
+            logger.error(f"❌ Error during FAISS embedding creation: {str(faiss_error)}")
+            faiss_results = {'success': False, 'error': str(faiss_error)}
+        
+        # Process user uploaded PDF for FAISS user_pdf index
+        user_pdf_results = {}
+        try:
+            logger.info("📄 Processing user uploaded PDF for FAISS...")
+            user_pdf_processing = faiss_vector_service.process_user_pdf(pdf_path, document_id=file_basename)
+            
+            if user_pdf_processing.get('chunks_added', 0) > 0:
+                user_pdf_results = {
+                    'success': True,
+                    'chunks_added': user_pdf_processing['chunks_added'],
+                    'document_id': user_pdf_processing['document_id'],
+                    'pdf_file': user_pdf_processing['pdf_file']
+                }
+                logger.info(f"✅ User PDF processed: {user_pdf_results['chunks_added']} chunks added to user_pdf index")
+            else:
+                user_pdf_results = {'success': False, 'error': 'No chunks added from user PDF'}
+                logger.warning("⚠️ No chunks were added from user PDF")
+                
+        except Exception as user_pdf_error:
+            logger.error(f"❌ Error processing user PDF: {str(user_pdf_error)}")
+            user_pdf_results = {'success': False, 'error': str(user_pdf_error)}
+        
+        # Add FAISS results to the response
+        results['faiss_embeddings'] = faiss_results
+        results['user_pdf_embeddings'] = user_pdf_results
+        
         logger.info(f"Files Created:")
         logger.info(f"  - {chunks_json_path}")
         logger.info(f"  - {keywords_json_path}")
@@ -735,6 +803,113 @@ def check_status(document_id):
 @app.errorhandler(413)
 def too_large(e):
     return jsonify({'error': 'File too large. Maximum size is 16MB.'}), 413
+
+@app.route('/faiss/stats', methods=['GET'])
+def get_faiss_stats():
+    """Get FAISS vector database statistics"""
+    try:
+        stats = faiss_vector_service.get_index_stats()
+        return jsonify({
+            'success': True,
+            'stats': stats
+        })
+    except Exception as e:
+        logger.error(f"Error getting FAISS stats: {e}")
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/faiss/rebuild', methods=['POST'])
+def rebuild_faiss_index():
+    """Rebuild FAISS index from all scraped data"""
+    try:
+        logger.info("🔄 Starting FAISS index rebuild...")
+        results = faiss_vector_service.process_all_scraped_data()
+        return jsonify({
+            'success': True,
+            'message': 'FAISS index rebuilt successfully',
+            'results': results
+        })
+    except Exception as e:
+        logger.error(f"Error rebuilding FAISS index: {e}")
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/faiss/search', methods=['POST'])
+def search_faiss_similarity():
+    """Search for similar content in FAISS vector database"""
+    try:
+        data = request.get_json()
+        query_text = data.get('text', '')
+        top_k = data.get('top_k', 10)
+        
+        if not query_text:
+            return jsonify({'error': 'Text query is required'}), 400
+        
+        # Search for similar content
+        results = faiss_vector_service.search_similar_content(query_text, top_k=top_k)
+        
+        return jsonify({
+            'success': True,
+            'query': query_text,
+            'results': results,
+            'total_found': len(results)
+        })
+    except Exception as e:
+        logger.error(f"Error searching FAISS index: {e}")
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/plagiarism/check', methods=['POST'])
+def check_plagiarism_faiss():
+    """Check plagiarism using FAISS vector database"""
+    try:
+        data = request.get_json()
+        text_content = data.get('text', '')
+        similarity_threshold = data.get('threshold', Config.SIMILARITY_THRESHOLD)
+        
+        if not text_content:
+            return jsonify({'error': 'Text content is required'}), 400
+        
+        # Create chunks from the text
+        chunks = faiss_vector_service._chunk_text(text_content)
+        
+        # Check each chunk for similarity
+        high_similarity_matches = []
+        all_results = []
+        
+        for i, chunk in enumerate(chunks):
+            similar_docs = faiss_vector_service.search_similar_content(chunk, top_k=3)
+            
+            if similar_docs:
+                best_match = similar_docs[0]
+                chunk_result = {
+                    'chunk_index': i,
+                    'chunk_text': chunk[:200] + "..." if len(chunk) > 200 else chunk,
+                    'similarity_score': best_match['similarity_score'],
+                    'match_quality': best_match['match_quality'],
+                    'similar_documents': similar_docs[:3]
+                }
+                all_results.append(chunk_result)
+                
+                # Check if it's above threshold
+                if best_match['similarity_score'] >= similarity_threshold:
+                    high_similarity_matches.append(chunk_result)
+        
+        # Calculate overall plagiarism percentage
+        plagiarism_percentage = (len(high_similarity_matches) / len(chunks)) * 100 if chunks else 0
+        
+        return jsonify({
+            'success': True,
+            'plagiarism_detected': len(high_similarity_matches) > 0,
+            'plagiarism_percentage': round(plagiarism_percentage, 2),
+            'total_chunks': len(chunks),
+            'high_similarity_chunks': len(high_similarity_matches),
+            'similarity_threshold': similarity_threshold,
+            'high_similarity_matches': high_similarity_matches,
+            'all_results': all_results[:10],  # Limit to first 10 for response size
+            'database_stats': faiss_vector_service.get_index_stats()
+        })
+        
+    except Exception as e:
+        logger.error(f"Error checking plagiarism: {e}")
+        return jsonify({'error': str(e)}), 500
 
 @app.errorhandler(404)
 def not_found(e):
