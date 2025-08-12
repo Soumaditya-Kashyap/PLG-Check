@@ -1,14 +1,16 @@
-# 📄 Plagiarism Checker - Data Scraping System
+# 📄 Plagiarism Checker - Data Scraping & Embedding System
 
 ## 🎯 **What This Does**
-Processes uploaded PDFs, extracts relevant research content from ArXiv and web sources, and stores them in organized JSON format for analysis.
+Processes uploaded PDFs, extracts relevant research content from ArXiv and web sources, creates vector embeddings for similarity analysis, and prepares everything for plagiarism detection.
 
 ## 🚀 **Current Features**
-- ✅ PDF text extraction and chunking
+- ✅ PDF text extraction and smart chunking
 - ✅ AI keyword generation (Google Gemini)
 - ✅ ArXiv research paper downloading
 - ✅ Web content scraping (Tavily API)
-- ✅ Structured JSON data storage
+- ✅ **Vector embedding creation (FAISS)**
+- ✅ **Organized similarity database**
+- ✅ **Ready for plagiarism detection**
 
 ## 📁 **Backend File Structure**
 ```
@@ -20,7 +22,8 @@ backend/
 │   ├── data_collection_service.py  # Main orchestrator - coordinates all services
 │   ├── llm_service.py             # Google Gemini AI integration
 │   ├── arxiv_service.py           # ArXiv paper search & download
-│   └── tavily_service.py          # Web content scraping & extraction
+│   ├── tavily_service.py          # Web content scraping & extraction
+│   └── faiss_vector_service.py    # FAISS vector database & embeddings
 └── utils/
     └── smart_text_processor.py    # PDF processing & text chunking
 ```
@@ -84,7 +87,9 @@ curl -X POST -F "file=@document.pdf" http://127.0.0.1:5000/upload
     "chunks_created": 45,
     "keywords_extracted": 15,
     "arxiv_papers_found": 8,
-    "web_content_scraped": 12
+    "web_content_scraped": 12,
+    "embeddings_created": 65,
+    "faiss_vectors_total": 1247
   }
 }
 ```
@@ -102,6 +107,15 @@ scraped_data/DOCUMENT_ID/
 └── web/            # Scraped web content  
     ├── web_results.json
     └── content/
+
+faiss_vector_db/
+├── user_pdf_index.bin         # User PDF embeddings
+├── user_pdf_metadata.pkl      # User PDF metadata
+├── arxiv_papers_index.bin     # ArXiv paper embeddings
+├── arxiv_papers_metadata.pkl  # ArXiv metadata
+├── web_content_index.bin      # Web content embeddings
+├── web_content_metadata.pkl   # Web metadata
+└── document_metadata.pkl      # Document tracking
 ```
 
 ## 🔧 **Required API Keys**
@@ -109,8 +123,8 @@ scraped_data/DOCUMENT_ID/
 - **Tavily API** - For web content scraping
 
 ## ✅ **System Status**
-**Phase 1 Complete**: Data Collection & Storage  
-**Ready For**: Vector Embeddings & Similarity Analysis
+**Phase 1 Complete**: Data Collection, Storage & Embedding Creation  
+**Ready For**: Advanced Similarity Analysis & Plagiarism Detection
 
 ## 🔄 **How It Works (Workflow)**
 
@@ -129,7 +143,13 @@ User uploads academic PDF → `app.py` receives file → saves to `uploads/` fol
 ### **Step 5: Web Content Scraping**
 `tavily_service.py` → searches web using keywords → extracts clean content → saves to `scraped_data/DOCUMENT_ID/web/`
 
-### **Step 6: Data Ready**
-All content organized in JSON format → ready for similarity analysis → plagiarism detection can begin
+### **Step 6: Vector Embedding Creation**
+`faiss_vector_service.py` → creates embeddings for all content:
+- **User PDF**: Text chunks → 384-dim vectors → `user_pdf_index.bin`
+- **ArXiv Papers**: Paper content → vectors → `arxiv_papers_index.bin`  
+- **Web Content**: Article text → vectors → `web_content_index.bin`
 
-**🎯 Result: Complete academic content database for uploaded PDF**
+### **Step 7: Organized Vector Storage**
+All embeddings stored in separate FAISS indexes → metadata tracking → ready for semantic similarity search
+
+**🎯 Result: Complete vector database with organized embeddings for plagiarism detection**
